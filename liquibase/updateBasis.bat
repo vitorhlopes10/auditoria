@@ -1,0 +1,1 @@
+liquibase --url="jdbc:jtds:sqlserver://172.20.1.12:1433;instance=Sqlexpress;databaseName=CFC.AUDITORIA" --changeLogFile="%cd%\changelog.xml" --username="app_cfc_auditoria" --password="audit159" --driver="net.sourceforge.jtds.jdbc.Driver" --classpath="C:\\liquibase\\driver\\jtds-1.3.1.jar" update

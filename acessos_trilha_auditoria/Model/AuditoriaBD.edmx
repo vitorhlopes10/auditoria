@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CFC.AUDITORIA.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="change">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="schema" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="table" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="action" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="tuple" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="id_log" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="log">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ip" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="agent" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="start_date" Type="datetime" Nullable="false" />
+          <Property Name="user_name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="manchine_name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="cpf_user" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="name_user" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="calling_method_name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="http_method" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="assembly_name" Type="varchar" MaxLength="255" />
+          <Property Name="database_name" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_changes_log">
+          <End Role="log" Type="Self.log" Multiplicity="1" />
+          <End Role="change" Type="Self.change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="log">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="change">
+              <PropertyRef Name="id_log" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CFCAUDITORIAStoreContainer">
+          <EntitySet Name="change" EntityType="Self.change" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="log" EntityType="Self.log" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_changes_log" Association="Self.fk_changes_log">
+            <End Role="log" EntitySet="log" />
+            <End Role="change" EntitySet="change" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CFC.AUDITORIA" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="change">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="schema" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="table" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="action" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="tuple" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_log" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="log" Relationship="Self.fk_changes_log" FromRole="change" ToRole="log" />
+        </EntityType>
+        <EntityType Name="log">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ip" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="agent" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="start_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="user_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="manchine_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cpf_user" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name_user" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="calling_method_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="http_method" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="assembly_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="database_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="change" Relationship="Self.fk_changes_log" FromRole="log" ToRole="change" />
+        </EntityType>
+        <Association Name="fk_changes_log">
+          <End Role="log" Type="Self.log" Multiplicity="1" />
+          <End Role="change" Type="Self.change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="log">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="change">
+              <PropertyRef Name="id_log" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AuditoriaContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="change" EntityType="Self.change" />
+          <EntitySet Name="log" EntityType="Self.log" />
+          <AssociationSet Name="fk_changes_log" Association="Self.fk_changes_log">
+            <End Role="log" EntitySet="log" />
+            <End Role="change" EntitySet="change" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CFCAUDITORIAStoreContainer" CdmEntityContainer="AuditoriaContext">
+          <EntitySetMapping Name="change">
+            <EntityTypeMapping TypeName="CFC.AUDITORIA.change">
+              <MappingFragment StoreEntitySet="change">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="schema" ColumnName="schema" />
+                <ScalarProperty Name="table" ColumnName="table" />
+                <ScalarProperty Name="action" ColumnName="action" />
+                <ScalarProperty Name="tuple" ColumnName="tuple" />
+                <ScalarProperty Name="id_log" ColumnName="id_log" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="log">
+            <EntityTypeMapping TypeName="CFC.AUDITORIA.log">
+              <MappingFragment StoreEntitySet="log">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="ip" ColumnName="ip" />
+                <ScalarProperty Name="agent" ColumnName="agent" />
+                <ScalarProperty Name="start_date" ColumnName="start_date" />
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="manchine_name" ColumnName="manchine_name" />
+                <ScalarProperty Name="cpf_user" ColumnName="cpf_user" />
+                <ScalarProperty Name="name_user" ColumnName="name_user" />
+                <ScalarProperty Name="calling_method_name" ColumnName="calling_method_name" />
+                <ScalarProperty Name="http_method" ColumnName="http_method" />
+                <ScalarProperty Name="assembly_name" ColumnName="assembly_name" />
+                <ScalarProperty Name="database_name" ColumnName="database_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

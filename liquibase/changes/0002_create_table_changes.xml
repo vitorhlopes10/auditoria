@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create_table_changes" author="vitor.lopes">
+
+        <createTable tableName="change">
+
+            <column name="id" autoIncrement="true" type="int" startWith="1">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="schema" type="varchar(15)" >
+                <constraints nullable="false" />
+		    </column>
+            <column name="table" type="varchar(255)" >
+                <constraints nullable="false" />
+		    </column>
+            <column name="action" type="varchar(100)" >
+                <constraints nullable="false" />
+		    </column>
+            <column name="tuple" type="varchar(255)" >
+                <constraints nullable="false" />
+		    </column>
+            <column name="id_log" type="int">
+				<constraints nullable="false" foreignKeyName="fk_changes_log" references="log(id)"/>
+			</column>
+
+        </createTable>
+
+    </changeSet>
+
+</databaseChangeLog>
